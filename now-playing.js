@@ -5,10 +5,10 @@ async function loadNowPlayingMovies() {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        const movies = data.results.slice(0, 10); // Ambil 10 film pertama
+        const movies = data.results.slice(0, 8); // take 8 first movie 
 
         let movieHTML = `<div style="font-family: Arial, sans-serif; text-align: center;">
-            <h2>🎬 Film Sedang Tayang di Amerika</h2>
+            <h2>🎬 Movies in theaters in USA right now</h2>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">`;
 
         movies.forEach(movie => {
