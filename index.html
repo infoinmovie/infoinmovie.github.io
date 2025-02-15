@@ -4,41 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Now Playing Movies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            overflow: hidden; /* No scrolling */
+            background-color: #111;
+            color: white;
+        }
+        #movie-container {
+            width: 90%;
+            max-width: 1000px; /* Adjust width */
+            padding: 20px;
+            background: #222;
+            border-radius: 10px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 15px;
+        }
+        .movie-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .movie-item {
+            width: calc(20% - 10px); /* Adjust for responsiveness */
+            min-width: 120px;
+            text-align: center;
+        }
+        .movie-item img {
+            width: 100%;
+            border-radius: 5px;
+        }
+        .movie-item h3 {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        @media (max-width: 768px) {
+            .movie-item { width: calc(33.33% - 10px); } /* Adjust for smaller screens */
+        }
+        @media (max-width: 480px) {
+            .movie-item { width: calc(50% - 10px); } /* Adjust for mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="movie-container">
+        <h2>🎬 Now Playing in Theaters (USA)</h2>
+        <div id="movie-list" class="movie-grid"></div>
+    </div>
+
     <script>
         async function loadNowPlayingMovies() {
-            const apiKey = "52aa25bd2b6d273c876b13e44a9e02b7"; // API Key TMDb
+            const apiKey = "52aa25bd2b6d273c876b13e44a9e02b7"; // Replace with your TMDb API Key
             const url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&region=US&page=1`;
 
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                const movies = data.results.slice(0, 8); // 8 fist on aired movie
+                const movies = data.results.slice(0, 10); // Limit to 10 movies
 
-                let movieHTML = `<div style="font-family: Arial, sans-serif; text-align: center;">
-                    <h2>🎬 Movies in theaters in USA right now</h2>
-                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">`;
-
+                let movieHTML = "";
                 movies.forEach(movie => {
                     movieHTML += `
-                        <div style="width: 140px;">
+                        <div class="movie-item">
                             <a href="https://www.themoviedb.org/movie/${movie.id}" target="_blank">
-                                <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" style="width:100%; border-radius:5px;">
-                                <h3 style="font-size:14px;">${movie.title}</h3>
+                                <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
+                                <h3>${movie.title}</h3>
                             </a>
                         </div>`;
                 });
 
-                movieHTML += `</div></div>`;
-                document.body.innerHTML = movieHTML;
+                document.getElementById("movie-list").innerHTML = movieHTML;
             } catch (error) {
-                console.error("Gagal mengambil data film:", error);
+                console.error("Failed to fetch movie data:", error);
             }
         }
 
-        // Panggil fungsi saat halaman dimuat
+        // Load movies on page load
         loadNowPlayingMovies();
     </script>
-</head>
-<body>
+
 </body>
 </html>
