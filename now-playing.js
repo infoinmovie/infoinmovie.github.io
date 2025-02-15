@@ -1,5 +1,5 @@
 async function loadNowPlayingMovies() {
-    const apiKey = "YOUR_API_KEY"; // Ganti dengan API Key TMDb
+    const apiKey = "52aa25bd2b6d273c876b13e44a9e02b7"; // Ganti dengan API Key TMDb
     const url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&region=US&page=1`;
 
     try {
