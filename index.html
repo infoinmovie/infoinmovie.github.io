@@ -12,7 +12,7 @@
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                const movies = data.results.slice(0, 10); // Ambil 10 film pertama
+                const movies = data.results.slice(0, 8); // Ambil 10 film pertama
 
                 let movieHTML = `<div style="font-family: Arial, sans-serif; text-align: center;">
                     <h2>🎬 Film Sedang Tayang di Amerika</h2>
