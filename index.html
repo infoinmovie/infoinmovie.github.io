@@ -3,42 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Now Playing Movies</title>
+    <title>Movies in Theaters (USA)</title>
+    <style>
+        /* Widget Container */
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff; /* White background */
+            color: black;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        #now-playing-widget {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Movie Grid */
+        #movie-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            justify-items: center;
+            margin-top: 15px;
+        }
+
+        /* Individual Movie Item */
+        .movie-item {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .movie-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 15px rgba(255, 0, 0, 0.8);
+        }
+
+        /* Movie Poster */
+        .movie-item img {
+            width: 100%;
+            border-radius: 5px;
+            height: 225px;
+            object-fit: cover;
+        }
+
+        /* Movie Title */
+        .movie-item h3 {
+            font-size: 14px;
+            color: red;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        /* Remove blue underline from links */
+        .movie-item a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div id="now-playing-widget">
+        <h2 style="color: black;">🎬 Movies in Theaters (USA)</h2>
+        <div id="movie-list"></div>
+    </div>
+
     <script>
         async function loadNowPlayingMovies() {
-            const apiKey = "52aa25bd2b6d273c876b13e44a9e02b7"; //  API Key TMDb
+            const apiKey = "52aa25bd2b6d273c876b13e44a9e02b7"; // Replace with your TMDb API Key
             const url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&region=US&page=1`;
 
             try {
                 const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
                 const data = await response.json();
-                const movies = data.results.slice(0, 8); // 10 first air movie
+                if (!data.results) throw new Error("Invalid API Response");
 
-                let movieHTML = `<div style="font-family: Arial, sans-serif; text-align: center;">
-                    <h2>🎬 Now Playing in Theaters (USA)</h2>
-                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">`;
-
+                const movies = data.results.slice(0, 8);
+                let movieHTML = "";
+                
                 movies.forEach(movie => {
+                    let imageUrl = movie.poster_path 
+                        ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+                        : 'https://via.placeholder.com/200x300?text=No+Image';
+
                     movieHTML += `
-                        <div style="width: 140px;">
+                        <div class="movie-item">
                             <a href="https://www.themoviedb.org/movie/${movie.id}" target="_blank">
-                                <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" style="width:100%; border-radius:5px;">
-                                <h3 style="font-size:14px;">${movie.title}</h3>
+                                <img src="${imageUrl}" alt="${movie.title}">
+                                <h3>${movie.title}</h3>
                             </a>
                         </div>`;
                 });
 
-                movieHTML += `</div></div>`;
-                document.body.innerHTML = movieHTML;
+                document.getElementById("movie-list").innerHTML = movieHTML;
             } catch (error) {
-                console.error("Gagal mengambil data film:", error);
+                console.error("Failed to fetch movie data:", error);
+                document.getElementById("movie-list").innerHTML = "<p style='color: red;'>Error loading movies. Please try again later.</p>";
             }
         }
 
-        // Panggil fungsi saat halaman dimuat
+        // Load movies when page loads
         loadNowPlayingMovies();
     </script>
-</head>
-<body>
 </body>
 </html>
