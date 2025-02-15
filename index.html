@@ -26,15 +26,15 @@
         #movie-list {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            gap: 10px;
             justify-items: center;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         /* Individual Movie Item */
         .movie-item {
             background: #f9f9f9;
-            padding: 10px;
+            padding: 8px;
             border-radius: 5px;
             transition: transform 0.3s ease-in-out;
         }
@@ -48,7 +48,7 @@
         .movie-item img {
             width: 100%;
             border-radius: 5px;
-            height: 225px;
+            height: 200px;
             object-fit: cover;
         }
 
@@ -72,6 +72,13 @@
         }
         @media (max-width: 600px) {
             #movie-list { grid-template-columns: repeat(1, 1fr); } /* 1 movie per row */
+            .movie-item img {
+                height: 150px; /* Smaller image for mobile */
+            }
+            .movie-item {
+                padding: 5px;
+                margin-bottom: 5px;
+            }
         }
     </style>
 </head>
