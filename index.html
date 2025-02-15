@@ -6,16 +6,16 @@
     <title>Now Playing Movies</title>
     <script>
         async function loadNowPlayingMovies() {
-            const apiKey = "52aa25bd2b6d273c876b13e44a9e02b7"; // Ganti dengan API Key TMDb
+            const apiKey = "52aa25bd2b6d273c876b13e44a9e02b7"; // API Key TMDb
             const url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&region=US&page=1`;
 
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                const movies = data.results.slice(0, 8); // Ambil 10 film pertama
+                const movies = data.results.slice(0, 8); // 8 fist on aired movie
 
                 let movieHTML = `<div style="font-family: Arial, sans-serif; text-align: center;">
-                    <h2>🎬 Film Sedang Tayang di Amerika</h2>
+                    <h2>🎬 Movies in theaters in USA right now</h2>
                     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">`;
 
                 movies.forEach(movie => {
