@@ -25,7 +25,7 @@
         /* Movie Grid */
         #movie-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             justify-items: center;
             margin-top: 15px;
@@ -64,6 +64,14 @@
         .movie-item a {
             text-decoration: none;
             color: inherit;
+        }
+
+        /* Responsive Grid Layout */
+        @media (max-width: 1023px) {
+            #movie-list { grid-template-columns: repeat(3, 1fr); } /* 3 movies per row */
+        }
+        @media (max-width: 600px) {
+            #movie-list { grid-template-columns: repeat(1, 1fr); } /* 1 movie per row */
         }
     </style>
 </head>
